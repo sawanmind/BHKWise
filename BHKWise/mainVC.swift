@@ -12,6 +12,7 @@ class mainVC: UITabBarController , UITabBarControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         delegate = self
         view.backgroundColor = UIColor.navigationColor
         let flowlayout = UICollectionViewFlowLayout()

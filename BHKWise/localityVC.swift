@@ -7,17 +7,22 @@
 //
 
 import UIKit
+import Alamofire
 
 class localityVC: UICollectionViewController,UICollectionViewDelegateFlowLayout {
     
-    var topLocalityUrl = "http://bhkwise.com/BHKwiseApi/ExcelListAPI?userid=&deviceid="
+    var topLocalityUrl = "http://bhkwise.com/BHKwiseApi/ExcelListAPI?userid=&deviceid=f853a4ab324c78c9&sortby=0&index=0&search=&city="
     let cellidentifier = "cell"
-    var titlelbl:[String] = ["NH8-MG Road","NH1-MG Road"]
+    
+    var localityData = [top_locality]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+       
         
         
+     
         
         collectionView?.backgroundColor = UIColor(red: 199/255, green: 199/255, blue: 204/255, alpha: 1)
         
@@ -27,9 +32,14 @@ class localityVC: UICollectionViewController,UICollectionViewDelegateFlowLayout 
         
         collectionView?.contentInset = UIEdgeInsets(top: 36, left: 0, bottom: 0, right: 0)
         setupsearchBarBGView()
+        
        
-        callAPI()
+        calllocalityAPI()
+      
     }
+    
+    
+       
     
     let searchBarView : TopSearchBarView = {
         let view = TopSearchBarView()
@@ -38,7 +48,7 @@ class localityVC: UICollectionViewController,UICollectionViewDelegateFlowLayout 
         return view
     }()
     
-    private func setupsearchBarBGView(){
+     func setupsearchBarBGView(){
         view.addSubview(searchBarView)
         
         searchBarView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -57,17 +67,10 @@ class localityVC: UICollectionViewController,UICollectionViewDelegateFlowLayout 
     
     func handleviewbtn(){
         
-       // let cell = localitycustomCell()
-       
-//        if cell.viewbtn.isSelected {
-//           
-//        }
-        
+   
         
         let flowlayout = UICollectionViewFlowLayout()
         let new = localityDetailVC(collectionViewLayout: flowlayout)
-        
-        new.titlelbl = "hello"
         self.navigationController?.pushViewController(new, animated: true)
         
        
@@ -85,16 +88,18 @@ class localityVC: UICollectionViewController,UICollectionViewDelegateFlowLayout 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellidentifier, for: indexPath) as! localitycustomCell
        
-        
+       
        
         
-        cell.viewbtn.addTarget(self, action: #selector(handleviewbtn), for: .touchUpInside)
-        cell.localityNamelbl.text = titlelbl[indexPath.item]
+      //  cell.viewbtn.addTarget(self, action: #selector(handleviewbtn), for: .touchUpInside)
+        cell.localityNamelbl.text = localityData[indexPath.row].titlelbl
+        cell.areaNamelbl.text = localityData[indexPath.row].city
+        
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return localityData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -133,12 +138,7 @@ class localitycustomCell: UICollectionViewCell {
         return view
     }()
     
-//    let titleLabel : UILabel = {
-//        let lbl = UILabel()
-//        lbl.textColor = UIColor.white
-//        return lbl
-//    }()
-//    
+
     
     func setuphomeblockImg(){
         
@@ -170,7 +170,6 @@ class localitycustomCell: UICollectionViewCell {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont(name: "AvenirNext-Medium", size: 18)
-//        lbl.text = "NH8-MG Road"
         lbl.textColor = UIColor.white
         return lbl
     }()
@@ -189,7 +188,7 @@ class localitycustomCell: UICollectionViewCell {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont(name: "AvenirNext-Medium", size: 15)
-        lbl.text = "Gurugram"
+       
         lbl.textColor = UIColor.white
         return lbl
     }()
@@ -208,7 +207,6 @@ class localitycustomCell: UICollectionViewCell {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.font = UIFont(name: "AvenirNext-Medium", size: 22)
-        lbl.text = "5.73"
         lbl.textColor = UIColor(red: 55/155, green: 115/155, blue: 229/155, alpha: 1)
         return lbl
     }()

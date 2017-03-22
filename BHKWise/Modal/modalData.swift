@@ -25,3 +25,13 @@ public enum HTTPMethod: String {
     case trace   = "TRACE"
     case connect = "CONNECT"
 }
+
+
+struct top_locality {
+    let titlelbl: String!
+    let city : String!
+    let HousingRating : Any!
+    let BuyPrice : Any!
+    let RentPrice : Any!
+    let LocalityStatusPts : Any!
+}

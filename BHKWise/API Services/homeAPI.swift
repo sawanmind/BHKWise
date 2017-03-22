@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import AlamofireImage
 
 extension homeVC {
   
@@ -42,5 +43,12 @@ extension homeVC {
                         }
                 }
         }
+        
+        
+        
+        
+        
+        
+       
     }
 }
